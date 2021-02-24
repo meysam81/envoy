@@ -550,10 +550,11 @@ PrioritySetImpl::getOrCreateHostSet(uint32_t priority,
   if (host_sets_.size() < priority + 1) {
     for (size_t i = host_sets_.size(); i <= priority; ++i) {
       HostSetImplPtr host_set = createHostSet(i, overprovisioning_factor);
-      host_set->addPriorityUpdateCb([this](uint32_t priority, const HostVector& hosts_added,
-                                           const HostVector& hosts_removed) {
-        runReferenceUpdateCallbacks(priority, hosts_added, hosts_removed);
-      });
+      host_sets_priority_update_cbs_.push_back(
+          host_set->addPriorityUpdateCb([this](uint32_t priority, const HostVector& hosts_added,
+                                               const HostVector& hosts_removed) {
+            runReferenceUpdateCallbacks(priority, hosts_added, hosts_removed);
+          }));
       host_sets_.push_back(std::move(host_set));
     }
   }

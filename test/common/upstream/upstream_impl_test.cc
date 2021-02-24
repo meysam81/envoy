@@ -365,7 +365,7 @@ TEST_F(StrictDnsClusterImplTest, Basic) {
   EXPECT_FALSE(cluster.info()->maintenanceMode());
 
   ReadyWatcher membership_updated;
-  cluster.prioritySet().addPriorityUpdateCb(
+  auto update_cb = cluster.prioritySet().addPriorityUpdateCb(
       [&](uint32_t, const HostVector&, const HostVector&) -> void { membership_updated.ready(); });
 
   cluster.initialize([] {});
@@ -704,7 +704,7 @@ TEST_F(StrictDnsClusterImplTest, LoadAssignmentBasic) {
   EXPECT_FALSE(cluster.info()->maintenanceMode());
 
   ReadyWatcher membership_updated;
-  cluster.prioritySet().addPriorityUpdateCb(
+  auto update_cb = cluster.prioritySet().addPriorityUpdateCb(
       [&](uint32_t, const HostVector&, const HostVector&) -> void { membership_updated.ready(); });
 
   cluster.initialize([] {});
@@ -822,7 +822,7 @@ TEST_F(StrictDnsClusterImplTest, LoadAssignmentBasic) {
   // Remove the duplicated hosts from both resolve targets and ensure that we don't see the same
   // host multiple times.
   absl::node_hash_set<HostSharedPtr> removed_hosts;
-  cluster.prioritySet().addPriorityUpdateCb(
+  auto priority_update_cb = cluster.prioritySet().addPriorityUpdateCb(
       [&](uint32_t, const HostVector&, const HostVector& hosts_removed) -> void {
         for (const auto& host : hosts_removed) {
           EXPECT_EQ(removed_hosts.end(), removed_hosts.find(host));
@@ -911,7 +911,7 @@ TEST_F(StrictDnsClusterImplTest, LoadAssignmentBasicMultiplePriorities) {
   StrictDnsClusterImpl cluster(cluster_config, runtime_, dns_resolver_, factory_context,
                                std::move(scope), false);
   ReadyWatcher membership_updated;
-  cluster.prioritySet().addPriorityUpdateCb(
+  auto update_cb = cluster.prioritySet().addPriorityUpdateCb(
       [&](uint32_t, const HostVector&, const HostVector&) -> void { membership_updated.ready(); });
 
   cluster.initialize([] {});
@@ -1108,7 +1108,7 @@ TEST_F(StrictDnsClusterImplTest, TtlAsDnsRefreshRate) {
   StrictDnsClusterImpl cluster(cluster_config, runtime_, dns_resolver_, factory_context,
                                std::move(scope), false);
   ReadyWatcher membership_updated;
-  cluster.prioritySet().addPriorityUpdateCb(
+  auto update_cb = cluster.prioritySet().addPriorityUpdateCb(
       [&](uint32_t, const HostVector&, const HostVector&) -> void { membership_updated.ready(); });
 
   cluster.initialize([] {});

@@ -406,7 +406,8 @@ public:
    * @param callback supplies the callback to invoke.
    * @return Common::CallbackHandle* a handle which can be used to unregister the callback.
    */
-  virtual Common::CallbackHandle* addMemberUpdateCb(MemberUpdateCb callback) const PURE;
+  ABSL_MUST_USE_RESULT virtual Common::CallbackHandlePtr
+  addMemberUpdateCb(MemberUpdateCb callback) const PURE;
 
   /**
    * Install a callback that will be invoked when a host set changes. Triggers when any change
@@ -416,7 +417,8 @@ public:
    * @param callback supplies the callback to invoke.
    * @return Common::CallbackHandle* a handle which can be used to unregister the callback.
    */
-  virtual Common::CallbackHandle* addPriorityUpdateCb(PriorityUpdateCb callback) const PURE;
+  ABSL_MUST_USE_RESULT virtual Common::CallbackHandlePtr
+  addPriorityUpdateCb(PriorityUpdateCb callback) const PURE;
 
   /**
    * @return const std::vector<HostSetPtr>& the host sets, ordered by priority.

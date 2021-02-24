@@ -19,13 +19,13 @@ public:
     return tls_certificate_.get();
   }
 
-  Common::CallbackHandle* addValidationCallback(
+  Common::CallbackHandlePtr addValidationCallback(
       std::function<void(const envoy::extensions::transport_sockets::tls::v3::TlsCertificate&)>)
       override {
     return nullptr;
   }
 
-  Common::CallbackHandle* addUpdateCallback(std::function<void()>) override { return nullptr; }
+  Common::CallbackHandlePtr addUpdateCallback(std::function<void()>) override { return nullptr; }
 
 private:
   Secret::TlsCertificatePtr tls_certificate_;
@@ -43,14 +43,14 @@ public:
     return certificate_validation_context_.get();
   }
 
-  Common::CallbackHandle* addValidationCallback(
+  Common::CallbackHandlePtr addValidationCallback(
       std::function<
           void(const envoy::extensions::transport_sockets::tls::v3::CertificateValidationContext&)>)
       override {
     return nullptr;
   }
 
-  Common::CallbackHandle* addUpdateCallback(std::function<void()>) override { return nullptr; }
+  Common::CallbackHandlePtr addUpdateCallback(std::function<void()>) override { return nullptr; }
 
 private:
   Secret::CertificateValidationContextPtr certificate_validation_context_;
@@ -67,13 +67,13 @@ public:
     return tls_session_ticket_keys_.get();
   }
 
-  Common::CallbackHandle* addValidationCallback(
+  Common::CallbackHandlePtr addValidationCallback(
       std::function<void(
           const envoy::extensions::transport_sockets::tls::v3::TlsSessionTicketKeys&)>) override {
     return nullptr;
   }
 
-  Common::CallbackHandle* addUpdateCallback(std::function<void()>) override { return nullptr; }
+  Common::CallbackHandlePtr addUpdateCallback(std::function<void()>) override { return nullptr; }
 
 private:
   Secret::TlsSessionTicketKeysPtr tls_session_ticket_keys_;
@@ -88,13 +88,13 @@ public:
     return generic_secret_.get();
   }
 
-  Common::CallbackHandle* addValidationCallback(
+  Common::CallbackHandlePtr addValidationCallback(
       std::function<void(const envoy::extensions::transport_sockets::tls::v3::GenericSecret&)>)
       override {
     return nullptr;
   }
 
-  Common::CallbackHandle* addUpdateCallback(std::function<void()>) override { return nullptr; }
+  Common::CallbackHandlePtr addUpdateCallback(std::function<void()>) override { return nullptr; }
 
 private:
   Secret::GenericSecretPtr generic_secret_;

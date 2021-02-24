@@ -46,7 +46,7 @@ AggregateClusterLoadBalancer::AggregateClusterLoadBalancer(
 
 void AggregateClusterLoadBalancer::addMemberUpdateCallbackForCluster(
     Upstream::ThreadLocalCluster& thread_local_cluster) {
-  thread_local_cluster.prioritySet().addMemberUpdateCb(
+  member_update_cb_ = thread_local_cluster.prioritySet().addMemberUpdateCb(
       [this, target_cluster_info = thread_local_cluster.info()](const Upstream::HostVector&,
                                                                 const Upstream::HostVector&) {
         ENVOY_LOG(debug, "member update for cluster '{}' in aggregate cluster '{}'",
